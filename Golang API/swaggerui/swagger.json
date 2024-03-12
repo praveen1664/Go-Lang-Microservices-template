@@ -1,0 +1,252 @@
+{
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "schemes": [
+    "http",
+    "https"
+  ],
+  "swagger": "2.0",
+  "info": {
+    "description": "These are the services in the form of RESTful APIs in golang.\nHere Swagger is used  to provide a detailed overview of the language specs",
+    "title": "Employee API.",
+    "contact": {
+      "name": "Praveen",
+      "email": "prav2601@gmail.com"
+    },
+    "version": "1.0.0"
+  },
+  "host": "localhost:8080",
+  "paths": {
+    "/employees": {
+      "get": {
+        "description": "Return the list of Employees.",
+        "tags": [
+          "employees"
+        ],
+        "summary": "Returns list of Employees",
+        "operationId": "getEmployees",
+        "responses": {
+          "200": {
+            "$ref": "#/responses/employeeRes"
+          },
+          "400": {
+            "$ref": "#/responses/badReq"
+          },
+          "404": {
+            "$ref": "#/responses/notFoundReq"
+          }
+        }
+      },
+      "post": {
+        "description": "If employee creation is success, employee will be  returned with Created (201).",
+        "tags": [
+          "employees"
+        ],
+        "summary": "Creates a new employee.",
+        "operationId": "createEmployee",
+        "parameters": [
+          {
+            "description": "employee to add to the list of accounts",
+            "name": "employee",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Employee"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/okResp"
+          },
+          "400": {
+            "$ref": "#/responses/badReq"
+          }
+        }
+      },
+      "put": {
+        "description": "If employee updation is success, employee will be returned with  (201).",
+        "tags": [
+          "employees"
+        ],
+        "summary": "Updates a current employee.",
+        "operationId": "updateEmployee",
+        "parameters": [  
+            { 
+              "name": "body",
+              "in" :"body",
+              "required": true,
+              "schema": {
+                "$ref": "#/definitions/Employee"
+              }  
+              
+            }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/okResp"
+          },
+          "400": {
+            "$ref": "#/responses/badReq"
+          },
+          "404": {
+            "$ref": "#/responses/notFoundReq"
+          }
+        }
+      }
+    },
+    "/employees/{id}": {
+      "get": {
+        "description": "If the employee is found, employee will be returned else Error Not Found (404) will be returned.",
+        "tags": [
+          "employees"
+        ],
+        "summary": "Return an Employee provided by the id.",
+        "operationId": "getEmployee",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "id of the employee",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/employeeRes"
+          },
+          "400": {
+            "$ref": "#/responses/badReq"
+          },
+          "404": {
+            "$ref": "#/responses/notFoundReq"
+          }
+        }
+      },
+      "delete": {
+        "description": "Depending on the employee id, HTTP Status Not Found (404) or HTTP Status OK (200) may be returned.",
+        "tags": [
+          "employees"
+        ],
+        "summary": "Deletes requested employee by employee id.",
+        "operationId": "deleteEmployee",
+        "parameters": [
+          {
+            "type": "string",
+            "description": "employee id",
+            "name": "id",
+            "in": "path",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/responses/okResp"
+          },
+          "400": {
+            "$ref": "#/responses/badReq"
+          },
+          "404": {
+            "$ref": "#/responses/notFoundReq"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Employee": {
+      "description": "Employee request model",
+      "type": "object",
+      "properties": {
+        "fname": {
+          "description": "First Name of the employee",
+          "type": "string",
+          "x-go-name": "Firstname"
+        },
+        "id": {
+          "description": "Id of the employee",
+          "type": "string",
+          "x-go-name": "ID"
+        },
+        "isbn": {
+          "description": "Isbn of the employee",
+          "type": "string",
+          "x-go-name": "Isbn"
+        },
+        "lname": {
+          "description": "Last Name of the employee",
+          "type": "string",
+          "x-go-name": "Lastname"
+        }
+      },
+      "x-go-package": "_/C_/Users/Anand/Desktop/go-workspace/first_project"
+    }
+  },
+  "responses": {
+    "badReq": {
+      "description": "Error Bad Request",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "description": "HTTP status code 400 -  Bad Request",
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "Code"
+          }
+        }
+      }
+    },
+    "employeeRes": {
+      "description": "Employee response payload",
+      "schema": {
+        "$ref": "#/definitions/Employee"
+      }
+    },
+    "notFoundReq": {
+      "description": "Error Not Found",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "description": "HTTP status code 404 -  Not Found",
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "Code"
+          }
+        }
+      }
+    },
+    "okResp": {
+      "description": "Success response",
+      "schema": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "description": "HTTP status code 200 - OK",
+            "type": "integer",
+            "format": "int64",
+            "x-go-name": "Code"
+          }
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "api_key": {
+      "type": "apiKey",
+      "name": "KEY",
+      "in": "header"
+    }
+  },
+  "security": [
+    {
+      "api_key": []
+    }
+  ]
+}

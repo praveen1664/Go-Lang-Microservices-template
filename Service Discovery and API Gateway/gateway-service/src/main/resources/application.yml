@@ -1,0 +1,55 @@
+server:  
+  port: ${PORT:8765}
+
+endpoints:
+  restart:
+    enabled: true
+  shutdown:
+    enabled: true
+  health:
+    sensitive: false
+
+zuul:
+  prefix: /api
+  routes:
+    account: 
+      path: /account/**
+      serviceId: account-service
+    customer: 
+      path: /customer/**
+      serviceId: customer-service
+    product: 
+      path: /product/**
+      serviceId: product-service
+    transfer: 
+      path: /transfer/**
+      serviceId: transfer-service
+    cost:
+      path: /cost/**
+      serviceId: cost-service
+    employee:
+      path: /employee/** 
+      serviceId: employee-service 
+      
+hystrix:
+  command:
+    default:
+      execution:
+        timeout:
+          enabled: false
+          
+ribbon:
+   ReadTimeout: 20000
+   ConnectTimeout: 20000
+   eureka:
+    enabled: true
+
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    registerWithEureka: false
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+    hostname: localhost
